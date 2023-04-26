@@ -1,0 +1,28 @@
+name: Nodejs
+
+on:
+  pull_request:
+    paths: 'nodejs/**.js'
+
+defaults:
+  run:
+    shell: bash
+    working-directory: nodejs
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 15.8
+      - name: Install dependencies
+        run: npm install
+      - name: Lint
+        run: DEBUG=eslint:cli-engine yarn run eslint src scripts
+      - name: Test
+        run: yarn test
