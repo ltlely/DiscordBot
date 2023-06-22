@@ -39,7 +39,8 @@ client.on("messageCreate", async message => {
 
     // Handle '!help' command
     if(message.content === "!help") {
-        message.channel.send("Type !jobs (position) (city) EX: !jobs, software engineer intern, seattle");
+        message.channel.send("Type !jobs (position), (city)");
+        message.channel.send("EX: !jobs, software engineer intern, seattle");
         return;
     }
 
@@ -47,7 +48,8 @@ client.on("messageCreate", async message => {
     if (content[0] === "!jobs") {
         // Verify if the correct number of arguments are provided
         if(content.length !== 3) {
-            message.channel.send("Invalid command. Type !jobs (position) (city) EX: !jobs, software engineer intern, seattle");
+            message.channel.send("Type !jobs (position), (city)");
+            message.channel.send("EX: !jobs, software engineer intern, seattle");
             return;
         }
 
@@ -57,10 +59,9 @@ client.on("messageCreate", async message => {
                 query: content[1],
                 location: content[2],
                 page_id: '2',
-                locality: 'us',
-                fromage: '3'
+                locality: 'us', 
             };
-
+         
             // Make the HTTP request to RapidAPI
             const response = await axios.request(options);
 
@@ -85,6 +86,7 @@ client.on("messageCreate", async message => {
         } catch (error) {
             console.error(error);
             message.channel.send('An error occurred. Please try again.');
+            message.channel.send("Use !help for more information");
         }
     }
 });
